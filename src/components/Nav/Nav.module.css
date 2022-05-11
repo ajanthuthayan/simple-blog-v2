@@ -1,0 +1,17 @@
+.nav {
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-container {
+  width: 90vw;
+  min-width: 500px;
+  max-width: 2000px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
