@@ -1,5 +1,6 @@
 .nav {
-  background-color: white;
+  background-color: #319795;
+  color: #e6fffa;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 2rem;
   display: flex;
@@ -8,8 +9,8 @@
 }
 
 .nav-container {
-  width: 90vw;
-  min-width: 500px;
+  width: 100%;
+  min-width: 450px;
   max-width: 2000px;
   display: flex;
   justify-content: space-between;

@@ -1,4 +1,3 @@
-// import styles from "./HamburgerMenu.module.css";
 import React from "react";
 import {
   Drawer,
@@ -32,11 +31,12 @@ function HamburgerMenu(props) {
         as={IconButton}
         icon={<HamburgerIcon />}
         variant="outline"
+        style={{ backgroundColor: "#E6FFFA", color: "#1D4044" }}
       />
 
       <Drawer onClose={onClose} isOpen={isOpen} size={size}>
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent style={{ backgroundColor: "#319795", color: "#E6FFFA" }}>
           <DrawerCloseButton />
           <DrawerBody>
             <Link>
