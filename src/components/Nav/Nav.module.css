@@ -1,18 +1,28 @@
 .nav {
   background-color: #319795;
-  color: #e6fffa;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 2rem;
+  color: #e6fffa;
+  padding: 1rem;
+  /* Dimensions */
+  width: 100vw;
+  min-width: 450px;
+  /* Flexbox Properties */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .nav-container {
+  /* Dimensions */
+  padding: 1rem;
+
+  max-width: 2000px;
   width: 100%;
   min-width: 450px;
-  max-width: 2000px;
+  /* Flexbox Properties */
   display: flex;
   justify-content: space-between;
   align-items: center;
+
 }
+

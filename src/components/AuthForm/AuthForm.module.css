@@ -1,9 +1,11 @@
 .container {
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  min-width: 450px;
+  max-width: 2000px;
 }
 .form {
   padding: 2rem;
