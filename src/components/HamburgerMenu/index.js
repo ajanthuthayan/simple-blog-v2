@@ -34,7 +34,6 @@ function HamburgerMenu(props) {
         icon={<HamburgerIcon />}
         variant="outline"
         style={{ backgroundColor: "#E6FFFA", color: "#1D4044" }}
-        display={["block", "block", "none", "none"]} 
       />
 
       <Drawer onClose={onClose} isOpen={isOpen} size={size}>
