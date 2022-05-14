@@ -12,12 +12,15 @@ import {
   useDisclosure,
   Link,
 } from "@chakra-ui/react";
-
+import NextLink from "next/link";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import { useSelector } from "react-redux";
 
 function HamburgerMenu(props) {
+  const { authLinks, noAuthLinks } = props;
   const [size, setSize] = React.useState("xs");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
   const handleClick = (newSize) => {
     setSize(newSize);
@@ -41,18 +44,22 @@ function HamburgerMenu(props) {
         <DrawerContent style={{ backgroundColor: "#319795", color: "#E6FFFA" }}>
           <DrawerCloseButton />
           <DrawerBody>
-            <Link>
-              <Heading>All Posts</Heading>
-            </Link>
-            <Link>
-              <Heading>Add Post</Heading>
-            </Link>
-            <Link>
-              <Heading>Login</Heading>
-            </Link>
-            <Link>
-              <Heading>Logout</Heading>
-            </Link>
+            {isLoggedIn &&
+              authLinks.map((link, index) => (
+                <NextLink key={index} href={link.route} passHref>
+                  <Link>
+                    <Heading>{link.name}</Heading>
+                  </Link>
+                </NextLink>
+              ))}
+            {!isLoggedIn &&
+              noAuthLinks.map((link, index) => (
+                <NextLink key={index} href={link.route} passHref>
+                  <Link>
+                    <Heading>{link.name}</Heading>
+                  </Link>
+                </NextLink>
+              ))}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

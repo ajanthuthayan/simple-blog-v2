@@ -137,7 +137,7 @@ function RegisterForm(props) {
           width={"100%"}
           onClick={loginHandler}
         >
-          Login
+          Register
         </Button>
       </FormControl>
       {isSubmitted && successfulLogin && (

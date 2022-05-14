@@ -6,8 +6,17 @@ import RegisterForm from "../RegisterForm";
 function AuthForm() {
   return (
     <div className={styles.container}>
-      <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
+      <Box
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        minWidth="450px"
+        maxWidth="2000px"
+        marginTop="8rem"
+      >
         <LoginForm styles={styles.form} />
+        {/* <RegisterForm styles={styles.form} /> */}
+
       </Box>
     </div>
   );
