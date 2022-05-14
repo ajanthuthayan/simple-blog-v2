@@ -1,0 +1,8 @@
+.container {
+    width: 100vw;
+    min-width: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
