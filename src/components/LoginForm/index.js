@@ -15,7 +15,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-function RegisterForm(props) {
+function LoginForm(props) {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [emailIsTouched, setEmailIsTouched] = useState(false);
@@ -166,4 +166,4 @@ function RegisterForm(props) {
   );
 }
 
-export default RegisterForm;
+export default LoginForm;
