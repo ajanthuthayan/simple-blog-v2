@@ -14,8 +14,8 @@ function AuthForm() {
         maxWidth="2000px"
         marginTop="8rem"
       >
-        {/* <LoginForm styles={styles.form} /> */}
-        <RegisterForm styles={styles.form} />
+        <LoginForm styles={styles.form} />
+        {/* <RegisterForm styles={styles.form} /> */}
 
       </Box>
     </div>

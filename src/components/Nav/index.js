@@ -1,17 +1,22 @@
 import dynamic from "next/dynamic";
 import styles from "./Nav.module.css";
-import { Heading, useMediaQuery, Link, Box } from "@chakra-ui/react";
+import { Heading, Link, Box } from "@chakra-ui/react";
 import HamburgerMenu from "../HamburgerMenu";
 import NextLink from "next/link";
+import { useSelector } from "react-redux";
 
 function Nav(props) {
-  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
-  const links = [
-    { name: "All Posts", route: "/" },
+  const authLinks = [
+    { name: "All Posts", route: "/", authRequired: null },
     { name: "Add Post", route: "/add-post" },
-    { name: "Login", route: "/login" },
     { name: "Logout", route: "/logout" },
+  ];
+
+  const noAuthLinks = [
+    { name: "All Posts", route: "/", authRequired: null },
+    { name: "Login", route: "/login" },
   ];
 
   return (
@@ -26,14 +31,21 @@ function Nav(props) {
             gap={2}
             fontSize={"1.25rem"}
           >
-            {links.map((link, index) => (
-              <NextLink key={index} href={link.route} passHref>
-                <Link>{link.name}</Link>
-              </NextLink>
-            ))}
+            {isLoggedIn &&
+              authLinks.map((link, index) => (
+                <NextLink key={index} href={link.route} passHref>
+                  <Link>{link.name}</Link>
+                </NextLink>
+              ))}
+            {!isLoggedIn &&
+              noAuthLinks.map((link, index) => (
+                <NextLink key={index} href={link.route} passHref>
+                  <Link>{link.name}</Link>
+                </NextLink>
+              ))}
           </Box>
           <Box display={["flex", "flex", "none", "none"]}>
-            <HamburgerMenu links={links}/>
+            <HamburgerMenu authLinks={authLinks} noAuthLinks={noAuthLinks} />
           </Box>
         </Box>
       </div>
