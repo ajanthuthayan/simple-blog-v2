@@ -7,6 +7,13 @@ import NextLink from "next/link";
 function Nav(props) {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
+  const links = [
+    { name: "All Posts", route: "/" },
+    { name: "Add Post", route: "/add-post" },
+    { name: "Login", route: "/login" },
+    { name: "Logout", route: "/logout" },
+  ];
+
   return (
     <nav className={styles.nav}>
       <div className={styles["nav-container"]}>
@@ -14,22 +21,19 @@ function Nav(props) {
           <Heading>Simple Blog</Heading>
         </Box>
         <Box>
-          <Box display={["none", "none", "flex", "flex"]} gap={2} fontSize={"1.25rem"}>
-            <NextLink href="/" passHref>
-              <Link>All Posts</Link>
-            </NextLink>
-            <NextLink href="/add-post" passHref>
-              <Link>Add Post</Link>
-            </NextLink>
-            <NextLink href="/login" passHref>
-              <Link>Login</Link>
-            </NextLink>
-            <NextLink href="/logout">
-              <Link>Logout</Link>
-            </NextLink>
+          <Box
+            display={["none", "none", "flex", "flex"]}
+            gap={2}
+            fontSize={"1.25rem"}
+          >
+            {links.map((link, index) => (
+              <NextLink key={index} href={link.route} passHref>
+                <Link>{link.name}</Link>
+              </NextLink>
+            ))}
           </Box>
           <Box display={["flex", "flex", "none", "none"]}>
-            <HamburgerMenu />
+            <HamburgerMenu links={links}/>
           </Box>
         </Box>
       </div>
