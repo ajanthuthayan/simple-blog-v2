@@ -33,7 +33,7 @@ function PostPreview(props) {
       className={styles["card-container"]}
     >
       <Box>
-        <Link href="/" isExternal noOfLines={0.8}>
+        <Link href="/" isExternal noOfLines={1}>
           <Heading as="h4" size="md" display="inline" >
             {title}
           </Heading>
