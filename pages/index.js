@@ -48,13 +48,11 @@ export default function Home() {
 
       <Nav />
       <main className={styles.container}>
-        {/* {isLoggedIn ? "Authenticated" : "Not Authenticated"} */}
+        {isLoggedIn ? "Authenticated" : "Not Authenticated"}
         {posts.map((post) => (
           <PostPreview
             key={post.id}
-            // id={post.id}
-            // author={post.author}
-            // date={post.date}
+            id={post.id}
             title={post.title}
             body={post.body}
           />

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styles from "./logout.module.css";
+import styles from "./custom.module.css";
 import NextLink from "next/link";
 import { Heading, Link } from "@chakra-ui/react";
 
@@ -12,7 +12,7 @@ export default function ErrorPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.container}>
-        <div className={styles.content}>
+        <div>
           <Heading as="h2">404 - Page Not Found!</Heading>
           <NextLink href="/" passHref>
             <Link>

@@ -11,7 +11,7 @@ import {
 import { ExternalLinkIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 function PostPreview(props) {
-  const { id, author, date, title, body } = props;
+  const { id, title, body } = props;
 
   const property = {
     beds: 3,
@@ -33,8 +33,8 @@ function PostPreview(props) {
       className={styles["card-container"]}
     >
       <Box>
-        <Link href="/" isExternal noOfLines={1}>
-          <Heading as="h4" size="md" display="inline" >
+        <Link href={`/posts/${id}`} isExternal noOfLines={1}>
+          <Heading as="h4" size="md" display="inline">
             {title}
           </Heading>
           <ExternalLinkIcon mx="2px" display="inline" />

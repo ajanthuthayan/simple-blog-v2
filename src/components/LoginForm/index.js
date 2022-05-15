@@ -14,6 +14,9 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import { login } from "../../app/auth-slice";
+import { useRouter } from "next/router";
 
 function LoginForm(props) {
   const [emailInput, setEmailInput] = useState("");
@@ -25,6 +28,9 @@ function LoginForm(props) {
   const [formIsValid, setFormIsValid] = useState();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [successfulLogin, setSuccessfulLogin] = useState(null);
+
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     if (emailIsValid && passwordIsValid) {
@@ -38,7 +44,6 @@ function LoginForm(props) {
     ) {
       setFormIsValid(false);
     }
-    console.log("password", passwordInput.length);
   }, [emailIsValid, passwordIsValid, passwordInput]);
 
   // onChange Handlers
@@ -74,7 +79,12 @@ function LoginForm(props) {
     setIsSubmitted(true);
     if (emailIsValid && passwordIsValid) {
       setFormIsValid(true);
+      // If a valid response is found
       setSuccessfulLogin(true);
+      setTimeout(() => {
+        dispatch(login());
+        router.push("/");
+      }, 1000);
     } else if (emailIsValid || passwordIsValid) {
       setSuccessfulLogin(null);
     } else {

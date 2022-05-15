@@ -1,17 +1,32 @@
-import dynamic from "next/dynamic";
+import { useEffect } from "react";
 import styles from "./Nav.module.css";
 import { Heading, Link, Box } from "@chakra-ui/react";
 import HamburgerMenu from "../HamburgerMenu";
 import NextLink from "next/link";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { login, logout } from "../../app/auth-slice";
 
 function Nav(props) {
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem("loggedIn") == "true") {
+      dispatch(login());
+    } else if (localStorage.getItem("loggedIn") != "true") {
+      dispatch(logout());
+    }
+  }, [dispatch]);
+
+  const logoutHandler = (event) => {
+    localStorage.clear();
+  };
 
   const authLinks = [
     { name: "All Posts", route: "/", authRequired: null },
     { name: "Add Post", route: "/add-post" },
-    { name: "Logout", route: "/logout" },
+    { name: "Logout", route: "/logout", onClick: logoutHandler },
   ];
 
   const noAuthLinks = [
@@ -34,7 +49,7 @@ function Nav(props) {
             {isLoggedIn &&
               authLinks.map((link, index) => (
                 <NextLink key={index} href={link.route} passHref>
-                  <Link>{link.name}</Link>
+                  <Link onClick={link.onClick}>{link.name}</Link>
                 </NextLink>
               ))}
             {!isLoggedIn &&
