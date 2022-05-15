@@ -11,7 +11,7 @@ export default function Logout() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.container}>
-        <div className={styles.content}>
+        <content>
           <Heading as="h2">You have been signed out!</Heading>
           <NextLink href="/" passHref>
             <Link>
@@ -20,7 +20,7 @@ export default function Logout() {
               </Heading>
             </Link>
           </NextLink>
-        </div>
+        </content>
       </div>
     </>
   );
