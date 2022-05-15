@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Nav from "../src/components/Nav";
+import AddPostForm from "../src/components/AddPostForm";
 
 export default function AddPost() {
   return (
@@ -10,10 +11,7 @@ export default function AddPost() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
-
-      <main></main>
-
-      <footer></footer>
+      <AddPostForm />
     </>
   );
 }
