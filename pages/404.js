@@ -2,7 +2,8 @@ import Head from "next/head";
 import styles from "./logout.module.css";
 import NextLink from "next/link";
 import { Heading, Link } from "@chakra-ui/react";
-export default function Logout() {
+
+export default function ErrorPage() {
   return (
     <>
       <Head>
@@ -12,7 +13,7 @@ export default function Logout() {
       </Head>
       <div className={styles.container}>
         <div className={styles.content}>
-          <Heading as="h2">You have been signed out!</Heading>
+          <Heading as="h2">404 - Page Not Found!</Heading>
           <NextLink href="/" passHref>
             <Link>
               <Heading as="h3" size="md">

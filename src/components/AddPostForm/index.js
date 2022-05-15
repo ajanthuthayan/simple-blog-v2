@@ -108,7 +108,7 @@ function AddPostForm() {
           >
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
-             Error
+             Error!
             </AlertTitle>
             <AlertDescription maxWidth="sm">
               We were unable to submit your post.
