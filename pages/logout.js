@@ -5,16 +5,23 @@ import NextLink from "next/link";
 import { useRouter } from "next/dist/client/router";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../src/app/auth-slice";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function Logout() {
+  const [message, setMessage] = useState("");
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    localStorage.clear(), dispatch(logout());
-  });
+    if (isLoggedIn) {
+      setMessage("You have been signed out!");
+      localStorage.clear();
+      dispatch(logout());
+    } else {
+      setMessage("You aren't signed in!");
+    }
+  }, []);
 
   return (
     <>
@@ -25,7 +32,7 @@ export default function Logout() {
       </Head>
       <div className={styles.container}>
         <content>
-          <Heading as="h2">You have been signed out!</Heading>
+          <Heading as="h2">{message}</Heading>
           <Link onClick={() => router.push("/")}>
             <Heading as="h3" size="md">
               Return to the home page
