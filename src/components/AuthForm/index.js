@@ -3,7 +3,9 @@ import { Box } from "@chakra-ui/react";
 import LoginForm from "../LoginForm";
 import RegisterForm from "../RegisterForm";
 
-function AuthForm() {
+function AuthForm(props) {
+  const { mode } = props;
+
   return (
     <div className={styles.container}>
       <Box
@@ -14,9 +16,8 @@ function AuthForm() {
         maxWidth="2000px"
         marginTop="8rem"
       >
-        <LoginForm styles={styles.form} />
-        {/* <RegisterForm styles={styles.form} /> */}
-
+        {mode === "login" && <LoginForm styles={styles.form} />}
+        {mode === "register" && <RegisterForm styles={styles.form} />}
       </Box>
     </div>
   );

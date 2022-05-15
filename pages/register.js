@@ -7,7 +7,7 @@ import Nav from "../src/components/Nav";
 import { Heading, Link } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
-export default function Login() {
+export default function Register() {
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
   if (!isLoggedIn) {
@@ -19,7 +19,7 @@ export default function Login() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Nav />
-        <AuthForm mode="login" />
+        <AuthForm mode="register" />
       </>
     );
   } else if (isLoggedIn) {
