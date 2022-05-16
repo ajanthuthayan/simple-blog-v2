@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Box } from "@chakra-ui/react";
-import { Heading } from "@chakra-ui/react";
 import {
+  Box,
   FormControl,
   FormLabel,
   FormHelperText,
@@ -13,10 +12,14 @@ import {
   InputGroup,
   Input,
   Button,
+  Text,
+  Heading,
+  Link,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { login } from "../../app/auth-slice";
 import { useRouter } from "next/router";
+import NextLink from "next/link";
 
 function LoginForm(props) {
   const [emailInput, setEmailInput] = useState("");
@@ -153,7 +156,17 @@ function LoginForm(props) {
         >
           Login
         </Button>
+        <Box marginTop={2} textAlign="center">
+          <NextLink href="/register" passHref>
+            <Link>
+              <Text fontSize="xs">
+                Don&apos;t have an account? Register here.
+              </Text>
+            </Link>
+          </NextLink>
+        </Box>
       </FormControl>
+
       {isSubmitted && successfulLogin && (
         <Box>
           <Alert status="success" variant="solid">

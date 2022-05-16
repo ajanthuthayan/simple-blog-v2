@@ -15,6 +15,7 @@ function AuthForm(props) {
         minWidth="450px"
         maxWidth="2000px"
         marginTop="8rem"
+        marginBottom="8rem"
       >
         {mode === "login" && <LoginForm styles={styles.form} />}
         {mode === "register" && <RegisterForm styles={styles.form} />}

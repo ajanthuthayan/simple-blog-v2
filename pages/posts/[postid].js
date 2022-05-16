@@ -2,14 +2,21 @@ import Head from "next/head";
 import Nav from "../../src/components/Nav";
 import Post from "../../src/components/Post";
 
-export default function PostPage() {
-  const post = {
-    id: 1,
-    author: "Ajanth Uthayan",
-    date: "May 14, 2022",
-    title: "Title",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  };
+// Imports for backend
+import connectMongo from "../../utils/connectMongo";
+import PostModel from "../../models/postModel";
+
+export default function PostPage({ post }) {
+  const { _id, author, date, title, body } = post;
+
+  const transformedDate = new Date(date).toLocaleDateString("en-us", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const transformedPost = { _id, author, date: transformedDate, title, body };
 
   return (
     <>
@@ -19,7 +26,24 @@ export default function PostPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
-      <Post post={post} />
+      <Post post={transformedPost} />
     </>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  const postId = context.params.postId;
+  try {
+    await connectMongo();
+    const post = await PostModel.findById(postId, "_id author date title body");
+    return {
+      props: {
+        post: JSON.parse(JSON.stringify(post)),
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+};

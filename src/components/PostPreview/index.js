@@ -8,7 +8,6 @@ import {
   Spacer,
   Button,
 } from "@chakra-ui/react";
-import { ExternalLinkIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 function PostPreview(props) {
   const { id, title, body } = props;
@@ -33,11 +32,10 @@ function PostPreview(props) {
       className={styles["card-container"]}
     >
       <Box>
-        <Link href={`/posts/${id}`} isExternal noOfLines={1}>
+        <Link href={`/posts/${id}`} noOfLines={1}>
           <Heading as="h4" size="md" display="inline">
             {title}
           </Heading>
-          <ExternalLinkIcon mx="2px" display="inline" />
         </Link>
       </Box>
 
