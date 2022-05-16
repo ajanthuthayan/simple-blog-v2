@@ -98,8 +98,11 @@ function AddPostForm() {
 
           // Reset
           setTitle("");
+          setTitleLength(0);
           setTitleIsValid(false);
+          
           setBody("");
+          setBodyLength(0);
           setBodyIsValid(false);
         } catch (error) {
           setIsSuccessful(false);
