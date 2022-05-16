@@ -100,7 +100,7 @@ function AddPostForm() {
           setTitle("");
           setTitleLength(0);
           setTitleIsValid(false);
-          
+
           setBody("");
           setBodyLength(0);
           setBodyIsValid(false);
@@ -121,6 +121,7 @@ function AddPostForm() {
         width="80vw"
         maxWidth="1800px"
         marginTop="4rem"
+        marginBottom="4rem"
       >
         <FormControl className={styles.form} isRequired>
           <Heading as="h2" size="xl" isTruncated>
@@ -168,6 +169,7 @@ function AddPostForm() {
             >{`${bodyLength}/1250`}</Text>
           </InputGroup>
           <Button
+            isDisabled={titleIsValid && bodyIsValid ? false : true}
             colorScheme="teal"
             type="submit"
             width="100%"
@@ -186,7 +188,7 @@ function AddPostForm() {
           minWidth="450px"
           width="80vw"
           maxWidth="1800px"
-          marginTop="1rem"
+          marginTop="-3rem"
           marginBottom="4rem"
         >
           <Alert
@@ -214,7 +216,7 @@ function AddPostForm() {
           minWidth="450px"
           width="80vw"
           maxWidth="1800px"
-          marginTop="1rem"
+          marginTop="-3rem"
           marginBottom="4rem"
         >
           <Alert
