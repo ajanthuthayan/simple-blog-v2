@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Box } from "@chakra-ui/react";
-import { Heading } from "@chakra-ui/react";
 import {
+  Box,
+  Heading,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -13,8 +13,11 @@ import {
   Input,
   InputRightElement,
   Button,
+  Link,
+  Text,
 } from "@chakra-ui/react";
 import { CloseIcon, CheckIcon } from "@chakra-ui/icons";
+import NextLink from "next/link";
 
 function RegisterForm(props) {
   const [emailInput, setEmailInput] = useState("");
@@ -139,6 +142,15 @@ function RegisterForm(props) {
         >
           Register
         </Button>
+        <Box marginTop={2} textAlign="center">
+          <NextLink href="/login" passHref>
+            <Link>
+              <Text fontSize="xs">
+                Already have an account? Login here.
+              </Text>
+            </Link>
+          </NextLink>
+        </Box>
       </FormControl>
       {isSubmitted && successfulLogin && (
         <Box>
