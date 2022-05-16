@@ -25,7 +25,6 @@ function AddPostForm() {
   const [bodyLength, setBodyLength] = useState(0);
   const [bodyIsValid, setBodyIsValid] = useState(false);
 
-  const [isValid, setIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(null);
 
@@ -89,7 +88,6 @@ function AddPostForm() {
     setIsSuccessful(null);
 
     if (titleIsValid && bodyIsValid) {
-      setIsValid(true);
       setIsLoading(true);
 
       setTimeout(async () => {
