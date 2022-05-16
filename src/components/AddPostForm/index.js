@@ -105,8 +105,6 @@ function AddPostForm() {
           setIsSuccessful(false);
         }
       }, 1000);
-    } else {
-      setIsValid(false);
     }
   };
 
