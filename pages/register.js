@@ -7,6 +7,7 @@ import Nav from "../src/components/Nav";
 import { Heading, Link } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
+
 export default function Register() {
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
