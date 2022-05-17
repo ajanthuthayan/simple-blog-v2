@@ -93,6 +93,28 @@ function RegisterForm(props) {
     "?",
   ];
 
+  const createUser = async () => {
+    try {
+      const response = await fetch("/api/createuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: `${firstNameInput} ${lastNameInput}`,
+          email: emailInput,
+          password: passwordInput,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+    } catch (error) {
+      return Promise.reject("An Error Occurred");
+    }
+  };
+
   useEffect(() => {
     const checkForPasswordMatch = () => {
       if (passwordInput === cPasswordInput) {
@@ -208,12 +230,21 @@ function RegisterForm(props) {
   const passwordFocusHandler = () => setPasswordIsTouched(true);
   const cPasswordFocusHandler = () => setCPasswordIsTouched(true);
 
-  const registerHandler = () => {
-    setIsLoading(true);
+  const registerHandler = (event) => {
+    event.preventDefault();
+    setSuccessfulRegister(null);
     if (formIsValid) {
-      setTimeout(() => {
-        setIsLoading(false);
-        setSuccessfulRegister(false);
+      setIsLoading(true);
+
+      setTimeout(async () => {
+        try {
+          await createUser();
+          setSuccessfulRegister(true);
+          setIsLoading(false);
+        } catch (error) {
+          setIsLoading(false);
+          setSuccessfulRegister(false);
+        }
       }, 1000);
     }
   };
@@ -345,7 +376,7 @@ function RegisterForm(props) {
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={showCPasswordHandler}>
-              {showPassword ? "Hide" : "Show"}
+              {showCPassword ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
         </InputGroup>

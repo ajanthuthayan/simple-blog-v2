@@ -4,13 +4,13 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  FormErrorMessage,
   Alert,
   AlertIcon,
   AlertTitle,
   AlertDescription,
   InputGroup,
   Input,
+  InputRightElement,
   Button,
   Text,
   Heading,
@@ -29,11 +29,35 @@ function LoginForm(props) {
   const [emailIsValid, setEmailIsValid] = useState(null);
   const [passwordIsValid, setPasswordIsValid] = useState(null);
   const [formIsValid, setFormIsValid] = useState();
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [successfulLogin, setSuccessfulLogin] = useState(null);
 
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const findUser = async () => {
+    try {
+      const response = await fetch("/api/finduser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: emailInput,
+          password: passwordInput,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+      const user = await response;
+      return user;
+    } catch (error) {
+      return Promise.reject("An Error Occurred");
+    }
+  };
 
   useEffect(() => {
     if (emailIsValid && passwordIsValid) {
@@ -67,7 +91,7 @@ function LoginForm(props) {
     const passwordInput = event.target.value;
     setPasswordInput(passwordInput);
     // Avoid revealing how long the password must be, instead if it is greater than 0 it will be considered valid
-    if (passwordIsTouched && passwordInput.length > 0) {
+    if (passwordIsTouched && passwordInput.length >= 5) {
       setPasswordIsValid(true);
     } else {
       setPasswordIsValid(false);
@@ -79,20 +103,28 @@ function LoginForm(props) {
   const passwordFocusHandler = () => setPasswordIsTouched(true);
 
   const loginHandler = () => {
-    setIsSubmitted(true);
-    if (emailIsValid && passwordIsValid) {
-      setFormIsValid(true);
-      // If a valid response is found
-      setSuccessfulLogin(true);
-      setTimeout(() => {
-        dispatch(login());
-        router.push("/");
+    setSuccessfulLogin(null);
+    setIsLoading(true);
+    if (formIsValid) {
+      setTimeout(async () => {
+        try {
+          await findUser();
+          setSuccessfulLogin(true);
+          setTimeout(() => {
+            setIsLoading(false);
+            dispatch(login());
+            router.push("/");
+          }, 1000);
+        } catch (error) {
+          setIsLoading(false);
+          setSuccessfulLogin(false);
+        }
       }, 1000);
-    } else if (emailIsValid || passwordIsValid) {
-      setSuccessfulLogin(null);
-    } else {
-      setFormIsValid(false);
     }
+  };
+
+  const showPasswordHandler = () => {
+    setShowPassword((prevState) => !prevState);
   };
   return (
     <>
@@ -132,22 +164,22 @@ function LoginForm(props) {
           <Input
             isInvalid={passwordIsTouched && !passwordIsValid ? true : false}
             id="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={passwordInput}
             onChange={passwordChangeHandler}
             onFocus={passwordFocusHandler}
             variant={passwordInput.length > 0 ? "filled" : "outline"}
           />
+          <InputRightElement width="4.5rem">
+            <Button h="1.75rem" size="sm" onClick={showPasswordHandler}>
+              {showPassword ? "Hide" : "Show"}
+            </Button>
+          </InputRightElement>
         </InputGroup>
-
-        {isSubmitted && passwordInput.length < 1 && (
-          <FormHelperText color={"red.500"}>Enter a password.</FormHelperText>
-        )}
-
-        <FormErrorMessage>
-          Please fill all required fields before submitting.
-        </FormErrorMessage>
         <Button
+          isDisabled={formIsValid ? false : true}
+          isLoading={isLoading ? true : false}
+          loadingText="Signing In..."
           mt={4}
           colorScheme="teal"
           type="submit"
@@ -167,7 +199,7 @@ function LoginForm(props) {
         </Box>
       </FormControl>
 
-      {isSubmitted && successfulLogin && (
+      {successfulLogin && (
         <Box>
           <Alert status="success" variant="solid">
             <AlertIcon />
@@ -176,7 +208,7 @@ function LoginForm(props) {
           </Alert>
         </Box>
       )}
-      {isSubmitted && successfulLogin === false && (
+      {successfulLogin === false && (
         <Box>
           <Alert status="error" variant="solid">
             <AlertIcon />
