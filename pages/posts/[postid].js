@@ -9,7 +9,7 @@ import PostModel from "../../models/postModel";
 export default function PostPage({ post }) {
   const { _id, author, date, title, body } = post;
 
-  const transformedDate = new Date(date).toLocaleDateString("en-us", {
+  const transformedDate = new Date(post.date).toLocaleDateString("en-us", {
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -17,7 +17,6 @@ export default function PostPage({ post }) {
   });
 
   const transformedPost = { _id, author, date: transformedDate, title, body };
-
   return (
     <>
       <Head>
@@ -32,10 +31,11 @@ export default function PostPage({ post }) {
 }
 
 export const getServerSideProps = async (context) => {
-  const postId = context.params.postId;
+  const postId = context.params.postid;
+
   try {
     await connectMongo();
-    const post = await PostModel.findById(postId, "_id author date title body");
+    const post = await PostModel.findById(postId);
     return {
       props: {
         post: JSON.parse(JSON.stringify(post)),
