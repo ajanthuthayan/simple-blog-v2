@@ -1,8 +1,8 @@
-import connectMongo from "../../utils/connectMongo";
-import User from "../../models/userModel";
+import connectMongo from "../../../utils/connectMongo";
+import User from "../../../models/userModel";
 import bcrypt from "bcrypt";
 
-export default async function createUserHandler(req, res) {
+export default async function register(req, res) {
   try {
     const { name, email, password } = req.body;
 

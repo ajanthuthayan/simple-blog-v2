@@ -95,7 +95,7 @@ function RegisterForm(props) {
 
   const createUser = async () => {
     try {
-      const response = await fetch("/api/createuser", {
+      const response = await fetch("/api/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

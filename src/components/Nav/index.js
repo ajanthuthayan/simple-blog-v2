@@ -3,30 +3,32 @@ import styles from "./Nav.module.css";
 import { Heading, Link, Box } from "@chakra-ui/react";
 import HamburgerMenu from "../HamburgerMenu";
 import NextLink from "next/link";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../../app/auth-slice";
 
+import { useSession, signOut } from "next-auth/react";
+
 function Nav(props) {
-  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
+  const { data: session } = useSession();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (localStorage.getItem("loggedIn") == "true") {
-      dispatch(login());
-    } else if (localStorage.getItem("loggedIn") != "true") {
-      dispatch(logout());
-    }
-  }, [dispatch]);
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
-  const logoutHandler = (event) => {
-    localStorage.clear();
+  useEffect(() => {
+    if (session) {
+      dispatch(login());
+    }
+  }, [dispatch, session]);
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    signOut({ redirect: false });
   };
 
   const authLinks = [
     { name: "All Posts", route: "/", authRequired: null },
     { name: "Add Post", route: "/add-post" },
-    { name: "Logout", route: "/logout", onClick: logoutHandler },
+    { name: "Logout", route: "/", onClick: logoutHandler },
   ];
 
   const noAuthLinks = [

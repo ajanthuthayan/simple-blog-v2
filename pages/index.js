@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Nav from "../src/components/Nav";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from "./index.module.css";
 import PostPreview from "../src/components/PostPreview";
 
@@ -10,7 +10,6 @@ import Post from "../models/postModel";
 
 export default function Home({ posts }) {
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
-
   return (
     <>
       <Head>
