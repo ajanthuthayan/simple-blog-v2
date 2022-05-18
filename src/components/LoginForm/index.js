@@ -16,10 +16,12 @@ import {
   Heading,
   Link,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../app/auth-slice";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
+
+import { useSession, signIn } from "next-auth/react";
 
 function LoginForm(props) {
   const [emailInput, setEmailInput] = useState("");
@@ -28,7 +30,6 @@ function LoginForm(props) {
   const [passwordIsTouched, setPasswordIsTouched] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(null);
   const [passwordIsValid, setPasswordIsValid] = useState(null);
-  const [formIsValid, setFormIsValid] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [successfulLogin, setSuccessfulLogin] = useState(null);
@@ -38,40 +39,19 @@ function LoginForm(props) {
 
   const findUser = async () => {
     try {
-      const response = await fetch("/api/finduser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: emailInput,
-          password: passwordInput,
-        }),
+      const response = await signIn("credentials", {
+        email: emailInput,
+        password: passwordInput,
+        redirect: false,
       });
 
       if (!response.ok) {
         throw new Error();
       }
-      const user = await response;
-      return user;
     } catch (error) {
       return Promise.reject("An Error Occurred");
     }
   };
-
-  useEffect(() => {
-    if (emailIsValid && passwordIsValid) {
-      setFormIsValid(true);
-    } else if (emailIsValid === null && passwordIsValid === null) {
-      setFormIsValid(null);
-    } else if (
-      (!emailIsValid && !passwordIsValid) ||
-      !emailIsValid ||
-      !passwordIsValid
-    ) {
-      setFormIsValid(false);
-    }
-  }, [emailIsValid, passwordIsValid, passwordInput]);
 
   // onChange Handlers
   const emailChangeHandler = (event) => {
@@ -105,16 +85,15 @@ function LoginForm(props) {
   const loginHandler = () => {
     setSuccessfulLogin(null);
     setIsLoading(true);
-    if (formIsValid) {
+    if (emailIsValid && passwordIsValid) {
       setTimeout(async () => {
         try {
           await findUser();
-          setSuccessfulLogin(true);
+          setIsLoading(false);
+          router.push("/");
           setTimeout(() => {
-            setIsLoading(false);
             dispatch(login());
-            router.push("/");
-          }, 1000);
+          }, 500);
         } catch (error) {
           setIsLoading(false);
           setSuccessfulLogin(false);
@@ -131,7 +110,7 @@ function LoginForm(props) {
       <FormControl
         className={props.styles}
         isRequired
-        isInvalid={formIsValid === false && true}
+        isInvalid={emailIsValid && passwordIsValid ? false : true}
       >
         <Heading as="h2" size="xl" paddingBottom="0.5rem" isTruncated>
           Sign In
@@ -154,11 +133,6 @@ function LoginForm(props) {
             }
           />
         </InputGroup>
-        {emailIsValid === false && (
-          <FormHelperText color={"red.500"}>
-            Enter a valid email address.
-          </FormHelperText>
-        )}
         <FormLabel htmlFor="password">Password</FormLabel>
         <InputGroup>
           <Input
@@ -177,7 +151,7 @@ function LoginForm(props) {
           </InputRightElement>
         </InputGroup>
         <Button
-          isDisabled={formIsValid ? false : true}
+          isDisabled={emailIsValid && passwordIsValid ? false : true}
           isLoading={isLoading ? true : false}
           loadingText="Signing In..."
           mt={4}
@@ -198,16 +172,6 @@ function LoginForm(props) {
           </NextLink>
         </Box>
       </FormControl>
-
-      {successfulLogin && (
-        <Box>
-          <Alert status="success" variant="solid">
-            <AlertIcon />
-            <AlertTitle>Success!</AlertTitle>
-            <AlertDescription>Logging in...</AlertDescription>
-          </Alert>
-        </Box>
-      )}
       {successfulLogin === false && (
         <Box>
           <Alert status="error" variant="solid">

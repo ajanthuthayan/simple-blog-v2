@@ -1,7 +1,7 @@
-import connectMongo from "../../utils/connectMongo";
-import Post from "../../models/postModel";
+import connectMongo from "../../../utils/connectMongo";
+import Post from "../../../models/postModel";
 
-export default async function postHandler(req, res) {
+export default async function add(req, res) {
   try {
     const { author, date, title, body } = req.body;
 

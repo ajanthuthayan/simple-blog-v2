@@ -61,7 +61,7 @@ function AddPostForm() {
 
   const sendPost = async () => {
     try {
-      const response = await fetch("/api/post", {
+      const response = await fetch("/api/post/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

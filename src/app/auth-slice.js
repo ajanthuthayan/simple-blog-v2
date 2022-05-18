@@ -8,13 +8,15 @@ export const authSlice = createSlice({
   name: "authentication",
   initialState,
   reducers: {
-    login: (state) => {
-      state.isLoggedIn = true;
-      localStorage.setItem("loggedIn", true);
+    login: (prevState) => {
+      let newState = { ...prevState };
+      newState.isLoggedIn = true;
+      return newState;
     },
-    logout: (state) => {
-      state.isLoggedIn = false;
-      localStorage.clear();
+    logout: (prevState) => {
+      let newState = { ...prevState };
+      newState.isLoggedIn = false;
+      return newState;
     },
   },
 });
