@@ -7,8 +7,7 @@ export default async function add(req, res) {
 
     await connectMongo();
     const post = await Post.create({ author, date, title, body });
-
-    return res.json({ post });
+    return res.json(post);
   } catch (error) {
     return res.status(404).json({ error: true });
   }

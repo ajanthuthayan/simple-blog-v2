@@ -54,23 +54,21 @@ function AddPostForm() {
     setBody(body);
 
     if (body.trim().length >= 1 && body.trim().length <= 1250) {
-      console.log("Body is valid");
       setBodyIsValid(true);
     } else {
-      console.log("Body is invalid");
       setBodyIsValid(false);
     }
   };
 
-  const sendPost = async () => {
+  const createPost = async () => {
     try {
-      const response = await fetch("/api/post/add", {
+      // Add to posts collection
+      const initialResponse = await fetch("/api/post/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // Will make the author dynamic eventually, to correspond with the loggedIn user's name
           author: session.user.name,
           date: new Date(),
           title: title,
@@ -78,9 +76,31 @@ function AddPostForm() {
         }),
       });
 
-      if (!response.ok) {
+      if (!initialResponse.ok) {
         throw new Error();
       }
+
+      const post = await initialResponse.json();
+
+      // Add to users collection
+      const secondResponse = await fetch("/api/user/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          post_id: post._id,
+          author: post.author,
+          date: post.date,
+          title: post.title,
+          body: post.body,
+        }),
+      });
+
+      if (!secondResponse.ok) {
+        throw new Error();
+      }
+      return Promise.resolve("Success");
     } catch (error) {
       return Promise.reject("An Error Occurred");
     }
@@ -92,11 +112,10 @@ function AddPostForm() {
 
     if (titleIsValid && bodyIsValid) {
       setIsLoading(true);
-
-      setTimeout(async () => {
+      (async function () {
         try {
+          await createPost();
           setIsLoading(false);
-          await sendPost();
           setIsSuccessful(true);
 
           // Reset
@@ -110,7 +129,7 @@ function AddPostForm() {
         } catch (error) {
           setIsSuccessful(false);
         }
-      }, 1000);
+      })();
     }
   };
 

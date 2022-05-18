@@ -104,6 +104,7 @@ function RegisterForm(props) {
           name: `${firstNameInput} ${lastNameInput}`,
           email: emailInput,
           password: passwordInput,
+          posts: [],
         }),
       });
 
