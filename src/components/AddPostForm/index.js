@@ -15,6 +15,7 @@ import {
   Textarea,
   Button,
 } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
 
 function AddPostForm() {
   const [title, setTitle] = useState("");
@@ -27,6 +28,8 @@ function AddPostForm() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(null);
+
+  const { data: session } = useSession();
 
   const onTitleChange = (event) => {
     // titleLength looks for max characters including spaces
@@ -68,7 +71,7 @@ function AddPostForm() {
         },
         body: JSON.stringify({
           // Will make the author dynamic eventually, to correspond with the loggedIn user's name
-          author: "Ajanth Uthayan",
+          author: session.user.name,
           date: new Date(),
           title: title,
           body: body,

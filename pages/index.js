@@ -9,7 +9,6 @@ import connectMongo from "../utils/connectMongo";
 import Post from "../models/postModel";
 
 export default function Home({ posts }) {
-  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
   return (
     <>
       <Head>
@@ -20,7 +19,6 @@ export default function Home({ posts }) {
 
       <Nav />
       <main className={styles.container}>
-        {isLoggedIn ? "Authenticated" : "Not Authenticated"}
         {posts &&
           posts.map((post) => (
             <PostPreview
