@@ -15,6 +15,7 @@ import {
   Textarea,
   Button,
 } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
 
 function AddPostForm() {
   const [title, setTitle] = useState("");
@@ -27,6 +28,8 @@ function AddPostForm() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(null);
+
+  const { data: session } = useSession();
 
   const onTitleChange = (event) => {
     // titleLength looks for max characters including spaces
@@ -51,33 +54,33 @@ function AddPostForm() {
     setBody(body);
 
     if (body.trim().length >= 1 && body.trim().length <= 1250) {
-      console.log("Body is valid");
       setBodyIsValid(true);
     } else {
-      console.log("Body is invalid");
       setBodyIsValid(false);
     }
   };
 
-  const sendPost = async () => {
+  const createPost = async () => {
     try {
-      const response = await fetch("/api/post/add", {
+      const response = await fetch("/api/user/createPost", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // Will make the author dynamic eventually, to correspond with the loggedIn user's name
-          author: "Ajanth Uthayan",
+          author: session.user.name,
           date: new Date(),
           title: title,
           body: body,
         }),
       });
 
+      const post = await response.json();
+
       if (!response.ok) {
         throw new Error();
       }
+      return Promise.resolve("Success");
     } catch (error) {
       return Promise.reject("An Error Occurred");
     }
@@ -89,11 +92,10 @@ function AddPostForm() {
 
     if (titleIsValid && bodyIsValid) {
       setIsLoading(true);
-
-      setTimeout(async () => {
+      (async function () {
         try {
+          await createPost();
           setIsLoading(false);
-          await sendPost();
           setIsSuccessful(true);
 
           // Reset
@@ -107,7 +109,7 @@ function AddPostForm() {
         } catch (error) {
           setIsSuccessful(false);
         }
-      }, 1000);
+      })();
     }
   };
 

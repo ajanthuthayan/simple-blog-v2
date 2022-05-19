@@ -47,7 +47,7 @@ function HamburgerMenu(props) {
             {isLoggedIn &&
               authLinks.map((link, index) => (
                 <NextLink key={index} href={link.route} passHref>
-                  <Link>
+                  <Link onClick={link.onClick}>
                     <Heading>{link.name}</Heading>
                   </Link>
                 </NextLink>

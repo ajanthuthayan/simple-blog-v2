@@ -5,23 +5,42 @@ import {
   Heading,
   Text,
   Link,
-  Spacer,
+  ButtonGroup,
   Button,
+  Icon,
 } from "@chakra-ui/react";
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 function PostPreview(props) {
-  const { id, title, body } = props;
+  const { id, title, body, authorized } = props;
+  const router = useRouter();
 
-  const property = {
-    beds: 3,
-    baths: 2,
-    title: "Modern home in city center in the heart of historic Los Angeles",
-    formattedPrice: "$1,900.00",
-    reviewCount: 34,
-    rating: 4,
+  const deletePostHandler = async () => {
+    try {
+      const response = await fetch("/api/user/deletePost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postid: id,
+        }),
+      });
+
+      router.reload();
+
+      if (!response.ok) {
+        throw new Error();
+      }
+    } catch (error) {
+      return Promise.reject("An Error Occurred");
+    }
   };
+
   return (
-    <Box
+    <Flex
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
@@ -29,18 +48,39 @@ function PostPreview(props) {
       minWidth="400px"
       maxWidth="1000px"
       padding="2rem"
+      flexDirection="column"
       className={styles["card-container"]}
     >
-      <Box>
-        <Link href={`/posts/${id}`} noOfLines={1}>
-          <Heading as="h4" size="md" display="inline">
-            {title}
-          </Heading>
-        </Link>
-      </Box>
+      <Flex
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Box minWidth="80%" padding="0">
+          <Link href={`/posts/${id}`} noOfLines={1}>
+            <Heading as="h4" size="md" display="inline">
+              {title}
+            </Heading>
+          </Link>
+        </Box>
+        {authorized && (
+          <Box maxWidth="40%">
+            <ButtonGroup>
+              <Button padding={0}>
+                <Icon as={FiEdit}></Icon>
+              </Button>
+              <Button padding={0} onClick={deletePostHandler}>
+                <Icon as={AiOutlineDelete}></Icon>
+              </Button>
+            </ButtonGroup>
+          </Box>
+        )}
+      </Flex>
 
-      <Text noOfLines={3}>{body}</Text>
-    </Box>
+      <Box marginTop="2">
+        <Text noOfLines={3}>{body}</Text>
+      </Box>
+    </Flex>
   );
 }
 

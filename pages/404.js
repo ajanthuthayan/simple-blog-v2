@@ -7,7 +7,7 @@ export default function ErrorPage() {
   return (
     <>
       <Head>
-        <title>Simple Blog - Logout</title>
+        <title>Simple Blog - Error</title>
         <meta name="description" content="A Simple NextJS Blog" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

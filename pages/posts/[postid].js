@@ -1,44 +1,100 @@
+import styles from "../custom.module.css";
 import Head from "next/head";
+import NextLink from "next/link";
 import Nav from "../../src/components/Nav";
 import Post from "../../src/components/Post";
+import { Heading, Link } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 // Imports for backend
 import connectMongo from "../../utils/connectMongo";
-import PostModel from "../../models/postModel";
+import User from "../../models/UserModel";
 
-export default function PostPage({ post }) {
-  const { _id, author, date, title, body } = post;
+export default function PostPage({ posts }) {
+  const router = useRouter();
+  const { postid } = router.query;
 
-  const transformedDate = new Date(post.date).toLocaleDateString("en-us", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  let selectedPost = "";
+  let transformedPost = "";
 
-  const transformedPost = { _id, author, date: transformedDate, title, body };
+  for (const post of posts) {
+    if (postid === post._id) {
+      selectedPost = post;
+    }
+
+    const transformedDate = new Date(selectedPost.date).toLocaleDateString(
+      "en-us",
+      {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }
+    );
+
+    transformedPost = {
+      _id: selectedPost._id,
+      author: selectedPost.author,
+      date: transformedDate,
+      title: selectedPost.title,
+      body: selectedPost.body,
+    };
+  }
+
+  if (selectedPost._id) {
+    return (
+      <>
+        <Head>
+          <title>Simple Blog - Post</title>
+          <meta name="description" content="A Simple NextJS Blog" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Nav />
+        <Post post={transformedPost} />
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
-        <title>Simple Blog - Post</title>
+        <title>Simple Blog - Error</title>
         <meta name="description" content="A Simple NextJS Blog" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Nav />
-      <Post post={transformedPost} />
+      <div className={styles.container}>
+        <div>
+          <Heading as="h2">404 - Page Not Found!</Heading>
+          <NextLink href="/" passHref>
+            <Link>
+              <Heading as="h3" size="md">
+                Return to the home page
+              </Heading>
+            </Link>
+          </NextLink>
+        </div>
+      </div>
     </>
   );
 }
 
 export const getServerSideProps = async (context) => {
-  const postId = context.params.postid;
-
   try {
     await connectMongo();
-    const post = await PostModel.findById(postId);
+    const dbPosts = await User.find({}, { posts: true, _id: false });
+    const posts = JSON.parse(JSON.stringify(dbPosts));
+
+    const transformedPosts = [];
+
+    for (const userPosts of posts) {
+      for (const post of userPosts.posts) {
+        transformedPosts.push(post);
+      }
+    }
+
     return {
       props: {
-        post: JSON.parse(JSON.stringify(post)),
+        posts: transformedPosts,
       },
     };
   } catch (error) {
@@ -47,3 +103,20 @@ export const getServerSideProps = async (context) => {
     };
   }
 };
+
+// try {
+//   await connectMongo();
+//   const post = await User.findById(session.id);
+
+//   console.log(post)
+
+//   return {
+//     props: {
+//       post: JSON.parse(JSON.stringify(post)),
+//     },
+//   };
+// } catch (error) {
+//   return {
+//     notFound: true,
+//   };
+// }

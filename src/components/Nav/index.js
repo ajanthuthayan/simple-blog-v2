@@ -22,7 +22,7 @@ function Nav(props) {
 
   const logoutHandler = () => {
     dispatch(logout());
-    signOut({ redirect: false });
+    signOut({ redirect: true });
   };
 
   const authLinks = [

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Box,
   FormControl,
   FormLabel,
-  FormHelperText,
   Alert,
   AlertIcon,
   AlertTitle,
@@ -16,12 +15,12 @@ import {
   Heading,
   Link,
 } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../app/auth-slice";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 function LoginForm(props) {
   const [emailInput, setEmailInput] = useState("");
