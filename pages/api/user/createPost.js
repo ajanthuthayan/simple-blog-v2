@@ -5,7 +5,6 @@ import { getSession } from "next-auth/react";
 
 export default async function createPost(req, res) {
   const session = await getSession({ req });
-  console.log(session)
   try {
     const { author, date, title, body } = req.body;
     await connectMongo();

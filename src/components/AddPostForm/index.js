@@ -75,8 +75,6 @@ function AddPostForm() {
         }),
       });
 
-      const post = await response.json();
-
       if (!response.ok) {
         throw new Error();
       }

@@ -1,14 +1,15 @@
-import styles from "../custom.module.css";
+import { useState } from "react";
+import styles from "../../custom.module.css";
 import Head from "next/head";
 import NextLink from "next/link";
-import Nav from "../../src/components/Nav";
-import Post from "../../src/components/Post";
-import { Heading, Link } from "@chakra-ui/react";
+import Nav from "../../../src/components/Nav";
+import Post from "../../../src/components/Post";
+import { Box, Button, ButtonGroup, Heading, Link } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 // Imports for backend
-import connectMongo from "../../utils/connectMongo";
-import User from "../../models/UserModel";
+import connectMongo from "../../../utils/connectMongo";
+import User from "../../../models/UserModel";
 
 export default function PostPage({ posts }) {
   const router = useRouter();
