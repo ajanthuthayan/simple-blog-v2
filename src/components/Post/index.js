@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/router";
 
 function Post(props) {
-  const { _id: postid, author, date, title, body } = props.post;
+  const { _id: postid, author, date, title, body, authorized } = props.post;
   const [edittingMode, setEdittingMode] = useState(false);
 
   const router = useRouter();
@@ -55,16 +55,18 @@ function Post(props) {
         marginBottom="2rem"
         padding="2rem"
       >
-        <Flex justifyContent="flex-end">
-          <ButtonGroup>
-            <Button colorScheme="gray" size="xs">
-              EDIT
-            </Button>
-            <Button colorScheme="red" size="xs" onClick={deletePostHandler}>
-              DELETE
-            </Button>
-          </ButtonGroup>
-        </Flex>
+        {authorized && (
+          <Flex justifyContent="flex-end">
+            <ButtonGroup>
+              <Button colorScheme="gray" size="xs">
+                EDIT
+              </Button>
+              <Button colorScheme="red" size="xs" onClick={deletePostHandler}>
+                DELETE
+              </Button>
+            </ButtonGroup>
+          </Flex>
+        )}
         <Heading>{title}</Heading>
         <Text>{date}</Text>
         <Text>{author}</Text>
