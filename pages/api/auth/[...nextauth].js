@@ -1,7 +1,7 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectMongo from "../../../utils/connectMongo";
-import User from "../../../models/userModel";
+import User from "../../../models/UserModel";
 import bcrypt from "bcrypt";
 
 export default NextAuth({
@@ -17,13 +17,11 @@ export default NextAuth({
         const user = await User.findOne({ email: credentials.email });
 
         if (user !== null) {
-          console.log("email in database");
           const userMatched = bcrypt.compareSync(
             credentials.password,
             user.hash
           );
           if (userMatched) {
-            console.log("user credentials are valid");
             return user;
           } else {
             return null;
@@ -36,7 +34,7 @@ export default NextAuth({
   ],
   callbacks: {
     jwt: ({ token, user }) => {
-      // user object is available the first time the jwt calbback is run
+      // user object is available the first time the jwt callback is run
       if (user) {
         token.id = user.id;
       }

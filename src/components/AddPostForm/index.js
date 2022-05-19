@@ -62,8 +62,7 @@ function AddPostForm() {
 
   const createPost = async () => {
     try {
-      // Add to posts collection
-      const initialResponse = await fetch("/api/post/add", {
+      const response = await fetch("/api/user/createPost", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,28 +75,9 @@ function AddPostForm() {
         }),
       });
 
-      if (!initialResponse.ok) {
-        throw new Error();
-      }
+      const post = await response.json();
 
-      const post = await initialResponse.json();
-
-      // Add to users collection
-      const secondResponse = await fetch("/api/user/update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          post_id: post._id,
-          author: post.author,
-          date: post.date,
-          title: post.title,
-          body: post.body,
-        }),
-      });
-
-      if (!secondResponse.ok) {
+      if (!response.ok) {
         throw new Error();
       }
       return Promise.resolve("Success");

@@ -1,20 +1,19 @@
 import connectMongo from "../../../utils/connectMongo";
 import { ObjectId } from "mongodb";
-import User from "../../../models/userModel";
+import User from "../../../models/UserModel";
 import { getSession } from "next-auth/react";
 
-export default async function update(req, res) {
+export default async function createPost(req, res) {
+  const session = await getSession({ req });
+  console.log(session)
   try {
-    const session = await getSession({ req });
-    console.log(session);
-    const { post_id, author, date, title, body } = req.body;
+    const { author, date, title, body } = req.body;
     await connectMongo();
     const user = await User.findByIdAndUpdate(
       { _id: ObjectId(session.id) },
       {
         $push: {
           posts: {
-            post_id: ObjectId(post_id),
             author: author,
             date: date,
             title: title,

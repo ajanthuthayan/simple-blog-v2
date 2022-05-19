@@ -1,11 +1,46 @@
 import styles from "./PostPreview.module.css";
-import { Box, Heading, Text, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Link,
+  ButtonGroup,
+  Button,
+  Icon,
+} from "@chakra-ui/react";
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 function PostPreview(props) {
-  const { id, title, body } = props;
+  const { id, title, body, authorized } = props;
+  const router = useRouter();
+
+  const deletePostHandler = async () => {
+    try {
+      const response = await fetch("/api/user/deletePost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postid: id,
+        }),
+      });
+
+      router.reload();
+
+      if (!response.ok) {
+        throw new Error();
+      }
+    } catch (error) {
+      return Promise.reject("An Error Occurred");
+    }
+  };
 
   return (
-    <Box
+    <Flex
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
@@ -13,20 +48,39 @@ function PostPreview(props) {
       minWidth="400px"
       maxWidth="1000px"
       padding="2rem"
+      flexDirection="column"
       className={styles["card-container"]}
     >
-      <LinkBox as="article">
-        <Box>
-          <LinkOverlay href={`/posts/${id}`} noOfLines={1}>
+      <Flex
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Box minWidth="80%" padding="0">
+          <Link href={`/posts/${id}`} noOfLines={1}>
             <Heading as="h4" size="md" display="inline">
               {title}
             </Heading>
-          </LinkOverlay>
+          </Link>
         </Box>
+        {authorized && (
+          <Box maxWidth="40%">
+            <ButtonGroup>
+              <Button padding={0}>
+                <Icon as={FiEdit}></Icon>
+              </Button>
+              <Button padding={0} onClick={deletePostHandler}>
+                <Icon as={AiOutlineDelete}></Icon>
+              </Button>
+            </ButtonGroup>
+          </Box>
+        )}
+      </Flex>
 
+      <Box marginTop="2">
         <Text noOfLines={3}>{body}</Text>
-      </LinkBox>
-    </Box>
+      </Box>
+    </Flex>
   );
 }
 

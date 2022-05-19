@@ -2,6 +2,7 @@ import styles from "./Post.module.css";
 import NextLink from "next/link";
 import HomeIcon from "../HomeIcon";
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
+
 function Post(props) {
   const { author, date, title, body } = props.post;
   return (
