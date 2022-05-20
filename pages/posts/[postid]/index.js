@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 // Imports for backend
 import connectMongo from "../../../utils/connectMongo";
-import User from "../../../models/UserModel";
+import User from "models\UserModel.js";
 import { getSession } from "next-auth/react";
 
 export default function PostPage({ posts, authPosts }) {
