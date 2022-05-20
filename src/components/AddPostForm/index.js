@@ -155,7 +155,7 @@ function AddPostForm() {
           >
             <Textarea
               id="body"
-              type="body"
+              type="text"
               width="100%"
               value={body}
               height="20rem"
