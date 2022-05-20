@@ -3,6 +3,10 @@ import styles from "./Post.module.css";
 import NextLink from "next/link";
 import HomeIcon from "../HomeIcon";
 import {
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  AlertIcon,
   Box,
   Heading,
   Text,
@@ -18,7 +22,9 @@ import { useRouter } from "next/router";
 
 function Post(props) {
   const { _id: postid, author, date, title, body, authorized } = props.post;
-  const [edittingMode, setEdittingMode] = useState(false);
+  const router = useRouter();
+
+  const [edittingMode, setEdittingMode] = useState(authorized && router.query.edit ? true : false);
 
   const [editTitle, setEditTitle] = useState(title);
   const [editTitleLength, setEditTitleLength] = useState(title.length);
@@ -28,7 +34,9 @@ function Post(props) {
   const [editBodyLength, setEditBodyLength] = useState(body.length);
   const [editBodyIsValid, setEditBodyIsValid] = useState(true);
 
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccessful, setIsSuccessful] = useState(null);
+
 
   const toggleEditPost = async () => {
     // Reset edit title to original state
@@ -41,6 +49,30 @@ function Post(props) {
     setEditBodyIsValid(true);
     // Toggle editting mode state
     setEdittingMode((prevState) => !prevState);
+  };
+
+  const updatePost = async () => {
+    try {
+      const response = await fetch("/api/user/updatePost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postId: postid,
+          date: date,
+          title: editTitle,
+          body: editBody,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+      return Promise.resolve("Success");
+    } catch (error) {
+      return Promise.reject("An Error Occurred");
+    }
   };
 
   const deletePostHandler = async () => {
@@ -85,7 +117,6 @@ function Post(props) {
     setEditBodyLength(event.target.value.length);
 
     const body = event.target.value;
-    console.log(body);
     setEditBody(body);
 
     if (body.trim().length >= 1 && body.trim().length <= 1250) {
@@ -95,9 +126,35 @@ function Post(props) {
     }
   };
 
-  const updatePostHandler = () => {
-    console.log("title", editTitle);
-    console.log("body", editBody);
+  const updatePostHandler = (event) => {
+    console.log("clicked");
+    event.preventDefault();
+    setIsSuccessful(null);
+
+    if (editTitleIsValid && editBodyIsValid) {
+      setIsLoading(true);
+      (async function () {
+        try {
+          await updatePost();
+          setIsLoading(false);
+          setIsSuccessful(true);
+
+          // Reset
+          setEditTitle("");
+          setEditTitleLength(0);
+          setEditTitleIsValid(false);
+
+          setEditBody("");
+          setEditBodyLength(0);
+          setEditBodyIsValid(false);
+          // Change to not editting mode
+          setEdittingMode(false);
+          router.reload();
+        } catch (error) {
+          setIsSuccessful(false);
+        }
+      })();
+    }
   };
 
   return (
@@ -203,6 +260,63 @@ function Post(props) {
             </Heading>
           </Button>
         </NextLink>
+      )}
+
+      {isSuccessful && (
+        <Box
+          overflow="hidden"
+          minWidth="450px"
+          width="80vw"
+          maxWidth="1800px"
+          marginTop="-3rem"
+          marginBottom="4rem"
+        >
+          <Alert
+            status="success"
+            variant="subtle"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            textAlign="center"
+            height="200px"
+          >
+            <AlertIcon boxSize="40px" mr={0} />
+            <AlertTitle mt={4} mb={1} fontSize="lg">
+              Success!
+            </AlertTitle>
+            <AlertDescription maxWidth="sm">
+              Your post has been updated with the latest changes.
+            </AlertDescription>
+          </Alert>
+        </Box>
+      )}
+      {isSuccessful === false && (
+        <Box
+          overflow="hidden"
+          minWidth="450px"
+          width="80vw"
+          maxWidth="1800px"
+          marginTop="-3rem"
+          marginBottom="4rem"
+        >
+          <Alert
+            status="error"
+            variant="subtle"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            textAlign="center"
+            height="200px"
+          >
+            <AlertIcon boxSize="40px" mr={0} />
+            <AlertTitle mt={4} mb={1} fontSize="lg">
+              Error!
+            </AlertTitle>
+            <AlertDescription maxWidth="sm">
+              We were unable to update your post.
+            </AlertDescription>
+          </Alert>
+        </Box>
       )}
     </div>
   );

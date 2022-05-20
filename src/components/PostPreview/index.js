@@ -17,6 +17,12 @@ function PostPreview(props) {
   const { id, title, body, authorized } = props;
   const router = useRouter();
 
+  const editPostHandler = () => {
+    console.log("clicked")
+    router.push(`/posts/${id}?edit=true`)
+  }
+
+
   const deletePostHandler = async () => {
     try {
       const response = await fetch("/api/user/deletePost", {
@@ -66,7 +72,7 @@ function PostPreview(props) {
         {authorized && (
           <Box maxWidth="40%">
             <ButtonGroup>
-              <Button padding={0}>
+              <Button padding={0} onClick={editPostHandler}>
                 <Icon as={FiEdit}></Icon>
               </Button>
               <Button padding={0} onClick={deletePostHandler}>
