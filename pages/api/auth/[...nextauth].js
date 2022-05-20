@@ -1,7 +1,7 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectMongo from "../../../utils/connectMongo";
-import User from "models\UserModel.js";
+import User from "../../../models/UserModel";
 import bcrypt from "bcrypt";
 
 export default NextAuth({
