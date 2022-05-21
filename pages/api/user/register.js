@@ -1,3 +1,4 @@
+// /api/user/register
 import connectMongo from "../../../utils/connectMongo";
 import User from "../../../models/UserModel";
 import bcrypt from "bcrypt";

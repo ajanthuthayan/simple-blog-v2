@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import mongoose, { Schema, model, models } from "mongoose";
 
 const PostSchema = new mongoose.Schema({
@@ -15,7 +14,7 @@ const UserSchema = new mongoose.Schema({
   posts: [PostSchema],
 });
 
-// Prevents a new model from being created each time
+// Prevents a new model from being created each time if one already exists
 const User = models.user || model("user", UserSchema);
 
 export default User;
