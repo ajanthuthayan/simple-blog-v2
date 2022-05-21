@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./HamburgerMenu.module.css";
 import {
   Heading,
   Drawer,

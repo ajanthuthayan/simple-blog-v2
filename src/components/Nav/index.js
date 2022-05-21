@@ -5,10 +5,9 @@ import HamburgerMenu from "../HamburgerMenu";
 import NextLink from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../../app/auth-slice";
-
 import { useSession, signOut } from "next-auth/react";
 
-function Nav(props) {
+function Nav() {
   const { data: session } = useSession();
   const dispatch = useDispatch();
 

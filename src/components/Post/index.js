@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./Post.module.css";
 import NextLink from "next/link";
 import HomeIcon from "../HomeIcon";
