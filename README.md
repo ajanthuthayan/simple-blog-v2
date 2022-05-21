@@ -1,4 +1,4 @@
-### Simple Blog<sup>v2</sup>
+# Simple Blog<sup>v2</sup>
 [Live Demo](https://simple-blog-v2.vercel.app/)
 
 ## The Motivation
