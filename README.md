@@ -4,8 +4,8 @@
 ## The Motivation
 The motivation for this project came from my experience when uploading the [first Simple Blog project](https://github.com/uajanth/simple-blog-v1) to my Github profile.  While I was able to successfully upload the files, I was unable to get that application to function as it did locally after deploying it to [netlify](https://simpleblogv1.netlify.app/). While troubleshooting for solutions, I hit a point where I was contemplating whether I even wanted to post that on my portfolio given that I had already transitioned towards making full-stack applications using NodeJS since completing that project, and was no longer proud of this server-less blog that didn't have a database. So instead of trying to get that application working, I have decided to revisit the project and make a project that I will be proud of by creating a full-stack version.
 
-Planned feature improvements
--	**Supports CRUD (create-read-update-delete) operations entirely**, and not limited to just create and read operations which were the only operations supported in the previous version
+### Planned feature improvements
+-	**Supports CRUD (create-read-update-delete) operations entirely for blog posts**, and not limited to just create and read operations which were the only operations supported in the previous version
 -	**Improve user authentication and form validation**, as previously Firebase Authentication, Redux and localStorage were used to authenticate users
 
 ## Implementation Technologies
@@ -29,8 +29,23 @@ These are some of the technologies that I set out to use, along with my reason f
   - Previously, I used Netlify to deploy the first version of the Simple Blog project. At the time it made sense, given that that application had no backend. However, after using a provider like Heroku to deploy a fullstack application, I didn't like the inconvenience of having to start up the backend by visiting the backend Heroku link before visiting the "front-end" link to make sure that the app would work. Additionally, Heroku was noticeably slower than Netlify and Vercel. Conveniently, Vercel was built by the developers of NextJS to support deployment of NextJS applications seamlessly, so I will deploy this project with Vercel.
 
 ## Project Description
-This web application was selected as a personal challenge to show my growth from front-end to full-stack development. The first Simple Blog project I completed was built using Next.JS and client-side fetching to Firebase’s Realtime Database API and Authentication module. I decided to revisit that project and build onto it by making it a full-stack application using a MongoDB database and NodeJS backend, along with improved user validation and authentication to provide a better user experience.
+This web application was selected as a personal challenge to show my growth from front-end to full-stack development. This is a simple CRUD application that allows authenticated users to be able to create, read, update and delete posts. Whereas, users who are not authenticated will be able to only read posts. The first Simple Blog project I completed was built using Next.JS and client-side fetching to Firebase’s Realtime Database API and Authentication module. I decided to revisit that project and build onto it by making it a full-stack application using a MongoDB database and NodeJS backend, along with improved user validation and authentication to provide a better user experience.
 
+### Features
+#### Completed
+- [x] Supports CRUD (create-read-update-delete) operations entirely for blog posts
+- [x] Improve user authentication and form validation
+
+#### Upcoming
+- [ ] Allow users to comment on blog posts to increase engagement
+- [ ] Add a feature to vote for posts (i.e like button)
 
 
 ## How to use the project
+
+Visit the live demo [here](https://simple-blog-v2.vercel.app/) to get started.
+
+### Coming Soon...
+
+
+
