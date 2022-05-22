@@ -16,6 +16,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 function AddPostForm() {
   const [title, setTitle] = useState("");
@@ -30,6 +31,7 @@ function AddPostForm() {
   const [isSuccessful, setIsSuccessful] = useState(null);
 
   const { data: session } = useSession();
+  const router = useRouter();
 
   const onTitleChange = (event) => {
     // titleLength looks for max characters including spaces
@@ -93,17 +95,19 @@ function AddPostForm() {
       (async function () {
         try {
           await createPost();
-          setIsLoading(false);
           setIsSuccessful(true);
+          setTimeout(() => {
+            router.push("/");
+            setIsLoading(false);
+            // Reset
+            setTitle("");
+            setTitleLength(0);
+            setTitleIsValid(false);
 
-          // Reset
-          setTitle("");
-          setTitleLength(0);
-          setTitleIsValid(false);
-
-          setBody("");
-          setBodyLength(0);
-          setBodyIsValid(false);
+            setBody("");
+            setBodyLength(0);
+            setBodyIsValid(false);
+          }, 700);
         } catch (error) {
           setIsSuccessful(false);
         }
