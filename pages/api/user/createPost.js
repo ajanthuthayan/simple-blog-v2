@@ -1,3 +1,4 @@
+// /api/user/createPost
 import connectMongo from "../../../utils/connectMongo";
 import { ObjectId } from "mongodb";
 import User from "../../../models/UserModel";

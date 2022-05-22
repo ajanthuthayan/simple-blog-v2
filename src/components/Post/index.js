@@ -60,7 +60,6 @@ function Post(props) {
         },
         body: JSON.stringify({
           postId: postid,
-          date: date,
           title: editTitle,
           body: editBody,
         }),

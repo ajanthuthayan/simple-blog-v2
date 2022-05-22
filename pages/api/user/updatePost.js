@@ -6,19 +6,14 @@ import { getSession } from "next-auth/react";
 export default async function updatePost(req, res) {
   const session = await getSession({ req });
   try {
-    const { postId, date, title, body } = req.body;
+    const { postId, title, body } = req.body;
     await connectMongo();
     const user = await User.findOneAndUpdate(
       { "posts._id": postId },
       {
         $set: {
-          "posts.$": {
-            _id: postId,
-            author: session.user.name,
-            date: date,
-            title: title,
-            body: body,
-          },
+          "posts.$.title": title,
+          "posts.$.body": body,
         },
       }
     );
