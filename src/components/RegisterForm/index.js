@@ -161,7 +161,6 @@ function RegisterForm(props) {
     );
 
     if (
-      firstNameIsTouched &&
       firstNameInput.length > 0 &&
       containsSpecialCharacters.length === 0
     ) {
@@ -180,7 +179,6 @@ function RegisterForm(props) {
     );
 
     if (
-      lastNameIsTouched &&
       lastNameInput.length > 0 &&
       containsSpecialCharacters.length === 0
     ) {
@@ -194,7 +192,6 @@ function RegisterForm(props) {
     const emailInput = event.target.value;
     setEmailInput(emailInput);
     if (
-      emailIsTouched &&
       emailInput.includes("@") &&
       emailInput.includes(".")
     ) {
@@ -207,7 +204,7 @@ function RegisterForm(props) {
   const passwordChangeHandler = (event) => {
     const passwordInput = event.target.value;
     setPasswordInput(passwordInput);
-    if (passwordIsTouched && passwordInput.length >= 5) {
+    if (passwordInput.length >= 5) {
       setPasswordIsValid(true);
     } else {
       setPasswordIsValid(false);
@@ -225,7 +222,9 @@ function RegisterForm(props) {
   };
 
   // onFocus Handlers
-  const firstNameFocusHandler = () => setFirstNameIsTouched(true);
+  const firstNameFocusHandler = () => {
+    setFirstNameIsTouched(true);
+  };
   const lastNameFocusHandler = () => setLastNameIsTouched(true);
   const emailFocusHandler = () => setEmailIsTouched(true);
   const passwordFocusHandler = () => setPasswordIsTouched(true);
@@ -280,107 +279,115 @@ function RegisterForm(props) {
 
   return (
     <>
-      <FormControl
-        className={props.styles}
-        isRequired
-        isInvalid={formIsValid === false && true}
-        autoComplete="off"
-      >
+      <form className={props.styles}>
         <Heading as="h2" size="xl" paddingBottom="0.5rem" isTruncated>
           Sign Up
         </Heading>
 
-        <FormLabel htmlFor="fname">First Name</FormLabel>
-        <InputGroup>
-          <Input
-            isInvalid={firstNameIsTouched && !firstNameIsValid ? true : false}
-            id="fname"
-            type="text"
-            value={firstNameInput}
-            onChange={firstNameChangeHandler}
-            onFocus={firstNameFocusHandler}
-            variant={firstNameInput.length > 0 ? "filled" : "outline"}
-          />
-        </InputGroup>
+        <FormControl isRequired>
+          <FormLabel htmlFor="first-name">First Name</FormLabel>
+          <InputGroup>
+            <Input
+              isInvalid={firstNameIsTouched && !firstNameIsValid ? true : false}
+              id="first-name"
+              type="text"
+              name="first-name"
+              value={firstNameInput}
+              onChange={firstNameChangeHandler}
+              onFocus={firstNameFocusHandler}
+              variant={firstNameInput.length > 0 ? "filled" : "outline"}
+            />
+          </InputGroup>
+        </FormControl>
 
-        <FormLabel htmlFor="lName">Last Name</FormLabel>
-        <InputGroup>
-          <Input
-            isInvalid={lastNameIsTouched && !lastNameIsValid ? true : false}
-            id="lName"
-            type="text"
-            value={lastNameInput}
-            onChange={lastNameChangeHandler}
-            onFocus={lastNameFocusHandler}
-            variant={lastNameInput.length > 0 ? "filled" : "outline"}
-          />
-        </InputGroup>
+        <FormControl isRequired>
+          <FormLabel htmlFor="lName">Last Name</FormLabel>
+          <InputGroup>
+            <Input
+              isInvalid={lastNameIsTouched && !lastNameIsValid ? true : false}
+              id="lName"
+              type="text"
+              name="lname"
+              value={lastNameInput}
+              onChange={lastNameChangeHandler}
+              onFocus={lastNameFocusHandler}
+              variant={lastNameInput.length > 0 ? "filled" : "outline"}
+            />
+          </InputGroup>
+        </FormControl>
 
-        <FormLabel htmlFor="email">Email Address</FormLabel>
-        <InputGroup>
-          <Input
-            isInvalid={emailIsTouched && !emailIsValid ? true : false}
-            id="email"
-            type="email"
-            value={emailInput}
-            onChange={emailChangeHandler}
-            onFocus={emailFocusHandler}
-            variant={emailInput.length > 0 ? "filled" : "outline"}
-          />
-        </InputGroup>
-        <FormLabel htmlFor="password">Password</FormLabel>
-        <InputGroup>
-          <InputLeftElement>
-            {passwordIsTouched && (!passwordIsValid || !passwordsMatch) && (
-              <CloseIcon color="red.500" />
-            )}
+        <FormControl isRequired>
+          <FormLabel htmlFor="email">Email Address</FormLabel>
+          <InputGroup>
+            <Input
+              isInvalid={emailIsTouched && !emailIsValid ? true : false}
+              id="email"
+              type="email"
+              value={emailInput}
+              onChange={emailChangeHandler}
+              onFocus={emailFocusHandler}
+              variant={emailInput.length > 0 ? "filled" : "outline"}
+            />
+          </InputGroup>
+        </FormControl>
 
-            {passwordIsTouched && passwordIsValid && passwordsMatch && (
-              <CheckIcon color="green.500" />
-            )}
-          </InputLeftElement>
-          <Input
-            isInvalid={passwordIsTouched && !passwordIsValid ? true : false}
-            id="password"
-            type={showPassword ? "text" : "password"}
-            value={passwordInput}
-            onChange={passwordChangeHandler}
-            onFocus={passwordFocusHandler}
-            variant={passwordInput.length > 0 ? "filled" : "outline"}
-          />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={showPasswordHandler}>
-              {showPassword ? "Hide" : "Show"}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
+        <FormControl isRequired>
+          <FormLabel htmlFor="password">Password</FormLabel>
+          <InputGroup>
+            <InputLeftElement>
+              {passwordIsTouched && (!passwordIsValid || !passwordsMatch) && (
+                <CloseIcon color="red.500" />
+              )}
 
-        <FormLabel htmlFor="confirm-password">Confirm Password</FormLabel>
-        <InputGroup>
-          <InputLeftElement>
-            {cPasswordIsTouched && (!cPasswordIsValid || !passwordsMatch) && (
-              <CloseIcon color="red.500" />
-            )}
+              {passwordIsTouched && passwordIsValid && passwordsMatch && (
+                <CheckIcon color="green.500" />
+              )}
+            </InputLeftElement>
+            <Input
+              isInvalid={passwordIsTouched && !passwordIsValid ? true : false}
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={passwordInput}
+              onChange={passwordChangeHandler}
+              onFocus={passwordFocusHandler}
+              variant={passwordInput.length > 0 ? "filled" : "outline"}
+            />
+            <InputRightElement width="4.5rem">
+              <Button h="1.75rem" size="sm" onClick={showPasswordHandler}>
+                {showPassword ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
 
-            {cPasswordIsTouched && cPasswordIsValid && passwordsMatch && (
-              <CheckIcon color="green.500" />
-            )}
-          </InputLeftElement>
-          <Input
-            isInvalid={cPasswordIsTouched && !cPasswordIsValid ? true : false}
-            id="confirm-password"
-            type={showCPassword ? "text" : "password"}
-            value={cPasswordInput}
-            onChange={cPasswordChangeHandler}
-            onFocus={cPasswordFocusHandler}
-            variant={passwordInput.length > 0 ? "filled" : "outline"}
-          />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={showCPasswordHandler}>
-              {showCPassword ? "Hide" : "Show"}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
+        <FormControl isRequired>
+          <FormLabel htmlFor="confirm-password">Confirm Password</FormLabel>
+          <InputGroup>
+            <InputLeftElement>
+              {cPasswordIsTouched && (!cPasswordIsValid || !passwordsMatch) && (
+                <CloseIcon color="red.500" />
+              )}
+
+              {cPasswordIsTouched && cPasswordIsValid && passwordsMatch && (
+                <CheckIcon color="green.500" />
+              )}
+            </InputLeftElement>
+            <Input
+              isInvalid={cPasswordIsTouched && !cPasswordIsValid ? true : false}
+              id="confirm-password"
+              type={showCPassword ? "text" : "password"}
+              value={cPasswordInput}
+              onChange={cPasswordChangeHandler}
+              onFocus={cPasswordFocusHandler}
+              variant={passwordInput.length > 0 ? "filled" : "outline"}
+            />
+            <InputRightElement width="4.5rem">
+              <Button h="1.75rem" size="sm" onClick={showCPasswordHandler}>
+                {showCPassword ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
         <Button
           isLoading={isLoading ? true : false}
           loadingText={isLoading && "Submitting"}
@@ -400,7 +407,7 @@ function RegisterForm(props) {
             </Link>
           </NextLink>
         </Box>
-      </FormControl>
+      </form>
       {submissionMessage}
     </>
   );
