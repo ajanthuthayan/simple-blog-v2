@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, CheckIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
+import { signIn } from "next-auth/react";
 
 function RegisterForm(props) {
   const [showPassword, setShowPassword] = useState(false);
@@ -160,10 +161,7 @@ function RegisterForm(props) {
       firstNameInput.includes(item)
     );
 
-    if (
-      firstNameInput.length > 0 &&
-      containsSpecialCharacters.length === 0
-    ) {
+    if (firstNameInput.length > 0 && containsSpecialCharacters.length === 0) {
       setFirstNameIsValid(true);
     } else {
       setFirstNameIsValid(false);
@@ -178,10 +176,7 @@ function RegisterForm(props) {
       lastNameInput.includes(item)
     );
 
-    if (
-      lastNameInput.length > 0 &&
-      containsSpecialCharacters.length === 0
-    ) {
+    if (lastNameInput.length > 0 && containsSpecialCharacters.length === 0) {
       setLastNameIsValid(true);
     } else {
       setLastNameIsValid(false);
@@ -191,10 +186,7 @@ function RegisterForm(props) {
   const emailChangeHandler = (event) => {
     const emailInput = event.target.value;
     setEmailInput(emailInput);
-    if (
-      emailInput.includes("@") &&
-      emailInput.includes(".")
-    ) {
+    if (emailInput.includes("@") && emailInput.includes(".")) {
       setEmailIsValid(true);
     } else {
       setEmailIsValid(false);
@@ -241,6 +233,11 @@ function RegisterForm(props) {
           await createUser();
           setSuccessfulRegister(true);
           setIsLoading(false);
+          await signIn("credentials", {
+            email: emailInput,
+            password: passwordInput,
+            callbackUrl: "/",
+          });
         } catch (error) {
           setIsLoading(false);
           setSuccessfulRegister(false);
