@@ -24,7 +24,8 @@ These are some of the technologies that I set out to use, along with my reason f
 
 - **Chakra UI**
   - Last time, I created components from scratch to practice my CSS skills. While I definitely had fun, and learned a lot about styling and UI/UX design in the previous version, this time I wanted to use a UI component library to reduce the time it takes to style components. I decided to choose Chakra UI over the likes of Material UI (MUI) because it fit with the feel I wanted to achieve. Whereas, if I was to design an enterprise level application I would definitely opt for a library such as Material UI.
--**Vercel** 
+ 
+- **Vercel** 
   - Previously, I used Netlify to deploy the first version of the Simple Blog project. At the time it made sense, given that that application had no backend. However, after using a provider like Heroku to deploy a fullstack application, I didn't like the inconvenience of having to start up the backend by visiting the backend Heroku link before visiting the "front-end" link to make sure that the app would work. Additionally, Heroku was noticeably slower than Netlify and Vercel. Conveniently, Vercel was built by the developers of NextJS to support deployment of NextJS applications seamlessly, so I will deploy this project with Vercel.
 
 ## Project Description
