@@ -29,6 +29,8 @@ These are some of the technologies that I set out to use, along with my reason f
   - Previously, I used Netlify to deploy the first version of the Simple Blog project. At the time it made sense, given that that application had no backend. However, after using a provider like Heroku to deploy a fullstack application, I didn't like the inconvenience of having to start up the backend by visiting the backend Heroku link before visiting the "front-end" link to make sure that the app would work. Additionally, Heroku was noticeably slower than Netlify and Vercel. Conveniently, Vercel was built by the developers of NextJS to support deployment of NextJS applications seamlessly, so I will deploy this project with Vercel.
 
 ## Project Description
+This web application was selected as a personal challenge to show my growth from front-end to full-stack development. The first Simple Blog project I completed was built using Next.JS and client-side fetching to Firebase’s Realtime Database API and Authentication module. I decided to revisit that project and build onto it by making it a full-stack application using a MongoDB database and NodeJS backend, along with improved user validation and authentication to provide a better user experience.
+
 
 
 ## How to use the project
