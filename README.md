@@ -1,11 +1,6 @@
 # Simple Blog<sup>v2</sup>
 [Live Demo](https://simple-blog-v2.vercel.app/)
 
-For demo purposes, login with the following credentials:    
-
-Email: `demo@demo.com`   
-Password: `demo123`
-
 ## The Motivation
 The motivation for this project came from my experience when uploading the [first Simple Blog project](https://github.com/uajanth/simple-blog-v1) to my Github profile.  While I was able to successfully upload the files, I was unable to get that application to function as it did locally after deploying it to [netlify](https://simpleblogv1.netlify.app/). While troubleshooting for solutions, I hit a point where I was contemplating whether I even wanted to post that on my portfolio given that I had already transitioned towards making full-stack applications using NodeJS since completing that project, and was no longer proud of this server-less blog that didn't have a database. So instead of trying to get that application working, I have decided to revisit the project and make a project that I will be proud of by creating a full-stack version.
 
